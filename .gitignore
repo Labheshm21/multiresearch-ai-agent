@@ -2,6 +2,7 @@
 .venv/
 venv/
 env/
+ENV/
 
 # Environment variables and secrets
 .env
@@ -17,6 +18,8 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.tox/
+.nox/
 .coverage
 .coverage.*
 htmlcov/
@@ -26,6 +29,7 @@ build/
 dist/
 *.egg-info/
 .eggs/
+wheels/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -41,5 +45,6 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 
-# Logs
+# Logs and local databases
 *.log
+*.sqlite3
