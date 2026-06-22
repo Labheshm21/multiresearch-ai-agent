@@ -8,6 +8,10 @@ ENV/
 .env
 .env.*
 !.env.example
+.streamlit/secrets.toml
+
+# Local package-manager cache
+.uv-cache/
 
 # Python bytecode and caches
 __pycache__/

@@ -1,7 +1,6 @@
-from langchain.tools import tool
+from langchain_core.tools import tool
 import requests
 from bs4 import BeautifulSoup
-from rich import print
 from tavily import TavilyClient
 import os
 from dotenv import load_dotenv
@@ -10,19 +9,19 @@ load_dotenv()
 tavily=TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
 @tool
-def web_search(query: str) -> dict:
-    """Search the web for recent, reliable information and return the results."""
-    return tavily.search(query=query, max_results=5)
+def web_search(query: str) -> str:
+    """Search the web for recent, reliable information and return formatted results."""
+    results = tavily.search(query=query, max_results=5)
+    output = []
 
-
-    out=[]
-
-    for r in results['results']:
-        out.append(
-            f"Title: {r['title']}\nURL: {r['url']}\nSnippet: {r['content'][:300]}\n"
+    for result in results.get("results", []):
+        output.append(
+            f"Title: {result.get('title', 'Untitled')}\n"
+            f"URL: {result.get('url', '')}\n"
+            f"Snippet: {result.get('content', '')[:500]}"
         )
-    
-    return "\n----\n".join(out)
+
+    return "\n\n---\n\n".join(output)
 
 @tool
 def scrape_url(url: str) -> str:
