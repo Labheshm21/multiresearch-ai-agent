@@ -8,6 +8,20 @@ from dotenv import load_dotenv
 load_dotenv()
 
 required_secrets = ("GROQ_API_KEY", "TAVILY_API_KEY")
+
+# Streamlit Community Cloud stores credentials in st.secrets. Copy root-level
+# values into the environment so the existing LangChain and Tavily modules can
+# use the same configuration locally and after deployment.
+for secret_name in required_secrets:
+    if not os.getenv(secret_name):
+        try:
+            secret_value = st.secrets.get(secret_name)
+        except FileNotFoundError:
+            secret_value = None
+
+        if secret_value:
+            os.environ[secret_name] = str(secret_value)
+
 missing_secrets = [name for name in required_secrets if not os.getenv(name)]
 
 # ── Page config ──────────────────────────────────────────────────────────────
